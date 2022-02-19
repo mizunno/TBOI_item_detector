@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import List
 import tqdm
 import pandas as pd
+import os
 
 BASE_URL = "https://bindingofisaacrebirth.fandom.com"
 ITEMS_PAGE_URL = f"{BASE_URL}/wiki/Collection_Page_(Repentance)"
@@ -22,6 +23,9 @@ class Item:
 
 
 def main(images_output_path: str, metadata_output_path: str):
+
+    create_output_paths(images_output_path, metadata_output_path)
+
     r = requests.get(ITEMS_PAGE_URL)
 
     soup = BeautifulSoup(r.content, "html.parser")
@@ -57,6 +61,14 @@ def main(images_output_path: str, metadata_output_path: str):
     print(f"Generating metadata CSV file at {metadata_output_path}...")
     metadata = pd.DataFrame([item.__dict__ for item in items])
     metadata.to_csv(f"{metadata_output_path}/metadata.csv", index=False)
+
+def create_output_paths(images_output_path, metadata_output_path):
+    """Check if output paths exists. If not, create them."""
+    if not os.path.exists(images_output_path):
+        os.makedirs(images_output_path)
+
+    if not os.path.exists(metadata_output_path):
+        os.makedirs(metadata_output_path)
 
 
 def get_item_url(a_element: Tag) -> str:
