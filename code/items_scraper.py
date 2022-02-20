@@ -54,8 +54,7 @@ def main(images_output_path: str, metadata_output_path: str):
                 interactions=None
             )
 
-            download_item_image(item.url, item.image_path)
-
+            download_item_image(item.image_url, item.image_path)
             items.append(item)
 
     print(f"Generating metadata CSV file at {metadata_output_path}...")
