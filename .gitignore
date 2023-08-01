@@ -1,5 +1,6 @@
 env
 .ipynb_checkpoints
-/data/images/*
+/data/*
+notebooks/hps_search_results
 __pycache__
 .tmp
